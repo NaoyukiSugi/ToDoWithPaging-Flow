@@ -12,7 +12,7 @@ class TaskRepositoryImpl(
 ) : TaskRepository {
     override fun getTaskList(): Flow<PagingData<PagingTask.Task>> {
         return Pager(
-            config = PagingConfig(),
+            config = pagingConfig(),
             pagingSourceFactory = { taskPagingSource }
         ).flow
     }
