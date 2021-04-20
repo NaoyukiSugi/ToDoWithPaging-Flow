@@ -2,9 +2,12 @@ package com.richarddewan.todowithpaging_flow.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.richarddewan.todowithpaging_flow.data.paging.TaskPagingSource
 import com.richarddewan.todowithpaging_flow.data.remote.network.Network
@@ -39,6 +42,22 @@ class MainActivity : AppCompatActivity() {
         binding.rvTask.apply {
             layoutManager = linearLayoutManager
             adapter = taskPagingAdapter
+        }
+
+        taskPagingAdapter.addLoadStateListener {
+            binding.rvTask.isVisible = it.source.refresh is LoadState.NotLoading
+            binding.progressBar.isVisible = it.source.refresh is LoadState.Loading
+
+            val errorState = it.source.append as? LoadState.Error
+                ?: it.source.prepend as? LoadState.Error
+                ?: it.source.refresh as? LoadState.Error
+                ?: it.append as? LoadState.Error
+                ?: it.prepend as? LoadState.Error
+                ?: it.refresh as? LoadState.Error
+
+            errorState?.let {
+                Toast.makeText(this, "Error: ${it.error}", Toast.LENGTH_LONG).show()
+            }
         }
 
         // observe the viewmodel live data
