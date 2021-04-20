@@ -1,7 +1,8 @@
-package com.richarddewan.todowithpaging_flow
+package com.richarddewan.todowithpaging_flow.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.richarddewan.todowithpaging_flow.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
